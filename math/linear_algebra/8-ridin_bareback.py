@@ -10,6 +10,9 @@ def mat_mul(mat1, mat2):
     n_rows_mat2 = len(mat2)
     n_cols_mat2 = len(mat2[0])
 
+    if n_cols_mat1 != n_rows_mat2:
+        return
+
     # in order to re-assign values
     new_matrix = [[0 for j in range(n_cols_mat2)] for i in range(n_rows_mat1)]
 
