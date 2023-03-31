@@ -16,7 +16,7 @@ def poly_derivative(poly):
     derivative = [poly[i] * i for i in range(1, len(poly))]
 
     if len(derivative) == 0:
-        return [0]
+        return None
 
     # If the derivative is 0, return [0]
     if all(c == 0 for c in derivative):
