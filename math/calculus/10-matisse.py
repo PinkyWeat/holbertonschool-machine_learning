@@ -8,9 +8,9 @@ def poly_derivative(poly):
     if not isinstance(poly, list):
         return None
 
-    # if less than 2 terms - derivative == 0
+    # poly less than 2 terms is no good
     if len(poly) < 2:
-        return [0]
+        return None
 
     # derivative * each coefficient by its power
     derivative = [poly[i] * i for i in range(1, len(poly))]
