@@ -5,11 +5,7 @@
 def poly_derivative(poly):
     """calculates the derivative of a polynomial"""
     # check type
-    if not isinstance(poly, list):
-        return None
-
-    # poly less than 2 terms is no good
-    if len(poly) < 2:
+    if not isinstance(poly, list) or len(poly) < 2:
         return None
 
     # derivative * each coefficient by its power
