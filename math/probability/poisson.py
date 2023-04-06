@@ -38,7 +38,7 @@ class Poisson():
         """Calculates the value of the CDF for a given number of “successes”"""
         if type(k) is not int:
             k = int(k)
-        elif k < 0:
+        if k < 0:
             return 0
         else:
             res = 0
