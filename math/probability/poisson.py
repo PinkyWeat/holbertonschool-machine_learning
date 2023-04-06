@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Poisson"""
-import math
 
 
 class Poisson():
     """Poisson Distribution"""
+
     def __init__(self, data=None, lambtha=1.):
         if data is None:
             if lambtha <= 0:
@@ -23,6 +23,13 @@ class Poisson():
             return 0
         if type(k) is not int:
             k = int(k)
+
         # calculates
+        def factorial(n):
+            if n == 0:
+                return 1
+            else:
+                return n * factorial(n - 1)
+
         e = 2.7182818285
-        return ((self.lambtha ** k) * (1 / (e ** self.lambtha))) / math.factorial(k)
+        return ((self.lambtha ** k) * (1 / (e ** self.lambtha))) / factorial(k)
