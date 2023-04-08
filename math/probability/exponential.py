@@ -25,3 +25,12 @@ class Exponential:
         if x < 0:
             return (0)
         return self.lambtha * e ** ((-1 * self.lambtha) * x)
+
+    def cdf(self, x):
+        """Calculates the value of the CDF for a given time period"""
+        # F(x) = 1 - e^(-λx), for x ≥ 0
+
+        e = 2.7182818285
+        if x < 0:
+            return 0
+        return 1 - e ** (-self.lambtha * x)
