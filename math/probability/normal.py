@@ -4,6 +4,7 @@
 
 class Normal():
     """represents a normal distribution"""
+    pi = 3.1415926536
 
     def __init__(self, data=None, mean=0., stddev=1.):
 
@@ -39,3 +40,13 @@ class Normal():
         e = 2.7182818285
         return (1 / (self.stddev * ((2 * pi) ** 0.5))) *\
                (e ** ((self.z_score(x) ** 2) / -2))
+
+    def err(self, x):
+        """Error function"""
+        s = x - ((x ** 3)/3) + ((x ** 5)/10) - ((x ** 7)/42) + ((x ** 9)/216)
+        return (2 * s) / self.pi ** 0.5
+
+    def cdf(self, x):
+        """Calculates the value of the CDF for a given x-value"""
+        err_x = (x - self.mean) / (self.stddev * 2 ** 0.5)
+        return 0.5 * (1 + self.err(err_x))
