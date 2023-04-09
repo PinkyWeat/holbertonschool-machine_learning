@@ -11,7 +11,7 @@ class Binomial():
             if n <= 0:
                 raise ValueError("n must be a positive value")
             self.n = int(n)
-            if 0 > p or p > 1:
+            if 0 >= p or p >= 1:
                 raise ValueError("p must be greater than 0 and less than 1")
             self.p = float(p)
         else:
@@ -28,3 +28,5 @@ class Binomial():
             # calc n first
             self.n = round(mean / (1 - (variance / mean)))
             self.p = float(mean / self.n)
+
+
