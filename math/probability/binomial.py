@@ -28,5 +28,3 @@ class Binomial():
             # calc n first
             self.n = round(mean / (1 - (variance / mean)))
             self.p = float(mean / self.n)
-
-
