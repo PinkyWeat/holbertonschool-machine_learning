@@ -9,6 +9,7 @@ def factorial(n):
     else:
         return n * factorial(n - 1)
 
+
 class Binomial():
     """represents a binomial distribution"""
 
@@ -37,11 +38,12 @@ class Binomial():
             self.p = float(mean / self.n)
 
     def pmf(self, k):
-        """Calculates the value of the PMF for a given number of “successes”"""
+        """Calculates the value of the PMF for a given num of successes"""
 
         if type(k) is not int:
             k = int(k)
         if k < 0:
             return 0
-        combination = factorial(self.n) / (factorial(k) * factorial(self.n - k))
+        combination = factorial(self.n) / (factorial(k) *
+                                           factorial(self.n - k))
         return combination * (self.p ** k) * ((1 - self.p) ** (self.n - k))
