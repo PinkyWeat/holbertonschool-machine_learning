@@ -2,6 +2,13 @@
 """Probability Distribution"""
 
 
+def factorial(n):
+    """aux func"""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
 class Binomial():
     """represents a binomial distribution"""
 
@@ -28,3 +35,13 @@ class Binomial():
             # calc n first
             self.n = round(mean / (1 - (variance / mean)))
             self.p = float(mean / self.n)
+
+    def pmf(self, k):
+        """Calculates the value of the PMF for a given number of “successes”"""
+
+        if type(k) is not int:
+            k = int(k)
+        if k < 0:
+            return 0
+        combination = factorial(self.n) / (factorial(k) * factorial(self.n - k))
+        return combination * (self.p ** k) * ((1 - self.p) ** (self.n - k))
