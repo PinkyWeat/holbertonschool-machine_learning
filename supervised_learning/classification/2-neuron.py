@@ -33,6 +33,7 @@ class Neuron():
         return 1 / (1 + np.exp(-x))
 
     def forward_prop(self, X):
+        """calculates frwd propagation"""
         # res of combination X features and corresponding Weights + bias
         Z = np.dot(self.__W, X) + self.__b
         # non-linearity between 0 and 1
