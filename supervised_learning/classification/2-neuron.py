@@ -29,6 +29,7 @@ class Neuron():
         return self.__A
 
     def sigmoid(self, x):
+        """non-linearity calc between 0 and 1"""
         return 1 / (1 + np.exp(-x))
 
     def forward_prop(self, X):
