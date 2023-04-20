@@ -58,10 +58,10 @@ class Neuron():
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
         """Calculates one pass of gradient descent on the neuron"""
-        m = X.shape[1]
-        dZ = A - Y
-        dW = (1 / m) * np.dot(X, dZ.T)
-        db = (1 / m) * np.sum(dZ)
+        m = Y.shape[1]
+        dz = A - Y
+        dw = np.matmul(X, dz.T) / m
+        db = np.sum(dz) / m
 
-        self.__W = self.__W - alpha * dW
-        self.__b = self.__b - alpha * db
+        self.__W -= alpha * dw.T
+        self.__b -= alpha * db
