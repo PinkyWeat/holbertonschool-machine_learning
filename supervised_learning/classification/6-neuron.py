@@ -68,13 +68,22 @@ class Neuron():
 
     def train(self, X, Y, iterations=5000, alpha=0.05):
         """Trains the neuron"""
-        if type(iterations) is not int:
+        if type(iterations) != int:
             raise TypeError("iterations must be an integer")
-        if iterations < 0:
+        elif iterations <= 0:
             raise ValueError("iterations must be a positive integer")
-        if type(alpha) is not float:
+        if type(alpha) != float:
             raise TypeError("alpha must be a float")
-        if alpha < 1:
+        elif alpha <= 0:
             raise ValueError("alpha must be positive")
+
+        for i in range(iterations):
+            # Frwd prop is performed to save the activated output A
+            A = self.forward_prop(X)
+            # Then, grandients of cost with respect of W and b are saved
+            # W and b are updated using these gradients
+            self.gradient_descent(X, Y, A, alpha)
+        # evaluation before anything
+        return self.evaluate(X, Y)
 
         
