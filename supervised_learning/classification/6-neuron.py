@@ -85,5 +85,3 @@ class Neuron():
             self.gradient_descent(X, Y, A, alpha)
         # evaluation before anything
         return self.evaluate(X, Y)
-
-        
