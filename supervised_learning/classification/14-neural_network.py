@@ -103,17 +103,11 @@ class NeuralNetwork:
         """
         Trains the neural network
         """
-        # Accepting iterations as float but ensuring it's positive
-        if not isinstance(iterations, (int, float)):
-            raise ValueError("iterations must be a positive number")
-        if iterations < 0:
-            raise ValueError("iterations cannot be negative")
+        if not isinstance(iterations, int) or iterations <= 0:
+            raise ValueError("iterations must be a positive integer")
 
-        # Accepting alpha as either float or int and ensuring it's positive
-        if not (isinstance(alpha, (float, int)) and alpha > 0):
+        if not isinstance(alpha, float) or alpha <= 0:
             raise ValueError("alpha must be positive")
-
-        iterations = int(iterations)
 
         for _ in range(iterations):
             A1, A2 = self.forward_prop(X)
