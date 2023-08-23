@@ -3,9 +3,10 @@
 
 import numpy as np
 
+
 class NeuralNetwork:
-    """Defines a neural network with one hidden layer performing
-        binary classification"""
+    """Defines a neural network with one hidden
+    layer performing binary classification"""
 
     def __init__(self, nx, nodes):
         """
@@ -25,12 +26,12 @@ class NeuralNetwork:
         elif nodes < 1:
             raise ValueError("nodes must be a positive integer")
 
-        # Hidden layer > neuron attributes:
+        # Hidden layer attributes:
         self.__W1 = np.random.normal(size=(nodes, nx))
         self.__b1 = np.zeros((nodes, 1))
         self.__A1 = 0
-        # Output layer > neuron attributes:
-        # The 1 in size: correspond to the qty of output neurons:
+
+        # Output layer attributes:
         self.__W2 = np.random.normal(size=(1, nodes))
         self.__b2 = 0
         self.__A2 = 0
@@ -49,11 +50,6 @@ class NeuralNetwork:
     def A1(self):
         """Private A1 attribute getter function"""
         return self.__A1
-
-    @A1.setter
-    def A1(self, value):
-        """Private A1 attribute setter function"""
-        self.__A1 = value
 
     @property
     def W2(self):
