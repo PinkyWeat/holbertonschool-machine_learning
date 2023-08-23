@@ -6,7 +6,8 @@ import numpy as np
 
 
 class NeuralNetwork:
-    """Class that defines a neural network with one hidden layer performing binary classification"""
+    """Class that defines a neural network
+    with one hidden layer performing binary classification"""
 
     def __init__(self, nx, nodes):
         """
@@ -66,7 +67,8 @@ class NeuralNetwork:
         Calculates the cost of the model using logistic regression
         """
         m = Y.shape[1]
-        cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
+        cost = (-1 / m) * np.sum(Y * np.log(A) +
+                                 (1 - Y) * np.log(1.0000001 - A))
         return cost
 
     def evaluate(self, X, Y):
@@ -101,11 +103,16 @@ class NeuralNetwork:
         """
         Trains the neural network
         """
-        if not isinstance(iterations, int) or iterations <= 0:
-            raise ValueError("iterations must be a positive integer")
+        # Accepting iterations as float and then converting to int
+        if not isinstance(iterations, (int, float)) or iterations <= 0:
+            raise ValueError("iterations must be a positive number")
 
-        if not isinstance(alpha, float) or alpha <= 0:
+        # Accepting alpha as either float or int
+        if not (isinstance(alpha, float) or isinstance(alpha, int)) \
+                or alpha <= 0:
             raise ValueError("alpha must be positive")
+
+        iterations = int(iterations)
 
         for _ in range(iterations):
             A1, A2 = self.forward_prop(X)
