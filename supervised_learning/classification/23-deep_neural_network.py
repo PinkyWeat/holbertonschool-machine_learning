@@ -163,9 +163,9 @@ class DeepNeuralNetwork():
         Trains the deep neural network
 
             iterations: number of iterations to train over
-            verbose: boolean, defines whether or not to print information
+            verbose: boolean, defines whether to print information
             about the training
-            graph: boolean, defines whether or not to graph information about
+            graph: boolean, defines whether to graph information about
             the training once the training has completed
         """
 
