@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+"""
+Tasks: Deep Neural Network
+"""
 from matplotlib import pyplot as plt
 import numpy as np
 import pickle
@@ -9,107 +11,182 @@ class DeepNeuralNetwork():
     """Defines a deep neural network performing binary classification"""
 
     def __init__(self, nx, layers):
-        if not isinstance(nx, int):
+        """ Constructor class """
+
+        if type(nx) != int:
             raise TypeError("nx must be an integer")
-        if nx < 1:
+        elif nx < 1:
             raise ValueError("nx must be a positive integer")
-        if not isinstance(layers, list) or not layers:
+        if type(layers) != list or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
 
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
 
-        for i, nodes in enumerate(layers):
-            if not isinstance(nodes, int) or nodes <= 0:
+        for i in range(len(layers)):
+            # Last validation:
+            if type(layers[i]) != int or layers[i] < 0:
                 raise TypeError("layers must be a list of positive integers")
 
-            in_dim = layers[i - 1] if i > 0 else nx
-            std = np.sqrt(2 / in_dim)
+            columns = layers[i - 1] if i > 0 else nx
 
-            self.__weights[f"W{i+1}"] = np.random.randn(nodes, in_dim) * std
-            self.__weights[f"b{i+1}"] = np.zeros((nodes, 1))
+            # He et al. initialization:
+            he_init = np.sqrt(2 / columns)
+
+            # Get weights and bias randomly:
+            Wi = np.random.randn(layers[i], columns) * he_init
+            bi = np.zeros((layers[i], 1))
+
+            # Set the values in weights dict:
+            self.weights["W{}".format(i + 1)] = Wi
+            self.weights["b{}".format(i + 1)] = bi
 
     @property
     def L(self):
+        """Private L attribute getter function"""
         return self.__L
 
     @property
     def cache(self):
+        """Private cache attribute getter function"""
         return self.__cache
 
     @property
     def weights(self):
+        """Private weights attribute getter function"""
         return self.__weights
 
-    @staticmethod
-    def sigmoid(X):
-        return 1 / (1 + np.exp(-X))
+    def sigmoid(self, X):
+        """Sigmoid activation function"""
+        return (1 / (1 + np.exp(-X)))
 
     def forward_prop(self, X):
-        self.__cache["A0"] = X
-        for i in range(1, self.__L + 1):
-            z = np.matmul(self.__weights[f"W{i}"], self.__cache[f"A{i-1}"]) \
-                + self.__weights[f"b{i}"]
-            self.__cache[f"A{i}"] = self.sigmoid(z)
+        """ Calculates the forward propagation of the neural network """
 
-        return self.__cache[f"A{self.__L}"], self.__cache
+        cache, weights = self.__cache, self.__weights
+        cache["A0"] = X
+        for i in range(self.__L):
+            Wi, bi = "W{}".format(i + 1), "b{}".format(i + 1)
+            Ai, A_next = "A{}".format(i), "A{}".format(i + 1)
+
+            # Weighted sum of the inputs, f0r each neuron:
+            sum_weights = np.matmul(weights[Wi], cache[Ai]) + weights[bi]
+            # Set each A value in cache using sigmoid activation function:
+            cache[A_next] = self.sigmoid(sum_weights)
+
+        return cache[A_next], cache
 
     def cost(self, Y, A):
-        m = Y.shape[1]
-        loss = -((Y * np.log(A)) + (1 - Y) * np.log(1.0000001 - A))
-        return np.sum(loss) / m
+        """ Calculates the cost of the model using logistic regression """
+
+        # Firstly, calculate the cross-entropy == loss function:
+        loss = -((Y * np.log(A)) + (1 - Y) * (np.log(1.0000001 - A)))
+
+        # Secondly, calculate the cost function == average of each loss result:
+        return loss.mean()
 
     def evaluate(self, X, Y):
-        A, _ = self.forward_prop(X)
-        cost = self.cost(Y, A)
-        return (A > 0.5).astype(int), cost
+        """ Evaluates the neural network's predictions """
+
+        predictions = self.forward_prop(X)[0]
+
+        # Calculate the cost with that last A value, in the last neuron:
+        cost = self.cost(Y, predictions)
+
+        # Return a binary np.ndarray:
+        return np.round(predictions).astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
-        m = Y.shape[1]
-        dz = cache[f"A{self.__L}"] - Y
+        """ Calculates one pass of gradient descent on the neural network """
 
-        for i in range(self.__L, 0, -1):
-            dw = np.matmul(dz, cache[f"A{i-1}"].T) / m
-            db = np.sum(dz, axis=1, keepdims=True) / m
-            dz = np.matmul(self.__weights[f"W{i}"].T, dz) \
-                * (cache[f"A{i-1}"] * (1 - cache[f"A{i-1}"]))
+        weights, layers = self.__weights, self.__L
+        # Calculate the quantity of training examples:
+        qty_examples = Y.shape[1]
 
-            self.__weights[f"W{i}"] -= alpha * dw
-            self.__weights[f"b{i}"] -= alpha * db
+        # Calculate the error in the LAST LAYER:
+        error = cache["A" + str(layers)] - Y
 
-    def train(self, X, Y, iterations=1000, alpha=0.05,
-              verbose=True, graph=True, step=100):
-        if not isinstance(iterations, int):
+        # Applies backpropagation, through the neural network from
+        # the last layer:
+        for i in range(layers, 0, -1):
+            # Define the current W, b and A:
+            Wi, bi = "W{}".format(i), "b{}".format(i)
+            Ai = "A{}".format(i - 1)
+
+            # Calculate the gradient of bias:
+            bias_gradient = np.sum(error, axis=1, keepdims=True)/qty_examples
+
+            # Calculate the gradient of the weights:
+            weights_gradient = np.matmul(error, cache[Ai].T) / qty_examples
+
+            # Update error in each layer:
+            error = np.matmul(weights[Wi].T, error)*(cache[Ai]*(1-cache[Ai]))
+
+            # Update the parameters:
+            weights[Wi] -= alpha * weights_gradient
+            weights[bi] -= alpha * bias_gradient
+
+    def train(self, X, Y, iterations=1000, alpha=0.05, verbose=True,
+              graph=True, step=100):
+        """ Trains the deep neural network """
+
+        # Parameters validation:
+        if type(iterations) != int:
             raise TypeError("iterations must be an integer")
-        if iterations < 1:
+        elif iterations < 1:
             raise ValueError("iterations must be a positive integer")
-        if not isinstance(alpha, float):
+        if type(alpha) != float:
             raise TypeError("alpha must be a float")
-        if alpha <= 0:
+        elif alpha <= 0:
             raise ValueError("alpha must be positive")
-        if not isinstance(step, int):
+        if type(step) != int:
             raise TypeError("step must be an integer")
 
-        costs = []
+        # Training loop f0r all neurons, all layers:
+        costs, steps = [], []
         for i in range(iterations + 1):
-            A, _ = self.forward_prop(X)
-            self.gradient_descent(Y, self.__cache, alpha)
+            A_last, cache = self.forward_prop(X)
+
+            # implement backpropagation:
+            self.gradient_descent(Y, cache, alpha)
+
+            # use plt.xticks in the chart construction:
             if i % step == 0:
-                cost = self.cost(Y, A)
-                costs.append(cost)
+                steps.append(i)
+                costs.append(self.cost(Y, A_last))
                 if verbose:
-                    print(f"Cost after {i} iterations: {cost}")
+                    print("Cost after {} iterations: {}".
+                          format(i, self.cost(Y, A_last)))
 
         if graph:
-            plt.plot(range(0, iterations + 1, step), costs)
             plt.title("Training Cost")
             plt.xlabel("iteration")
             plt.ylabel("cost")
+
+            plt.plot(steps, costs)
             plt.show()
 
+        # Final return: evaluation of the model performance:
         return self.evaluate(X, Y)
 
     def save(self, filename):
-        """Saves the instance object to a file in pickle format"""
-        if not filename.endswith
+        """ Saves the instance object to a file in pickle format"""
+
+        if filename.endswith(".pkl") == 0:
+            filename += ".pkl"
+
+        # Write the file, use 'wb' for writing in binary mode:
+        with open(filename, "wb") as file:
+            pickle.dump(self, file)
+
+    @staticmethod
+    def load(filename):
+        """Loads a pickled DeepNeuralNetwork object"""
+
+        try:
+            # Open the file, use 'rb' for reading in binary mode:
+            with open(filename, "rb") as file:
+                return pickle.load(file)
+        except Exception as e:
+            return None
