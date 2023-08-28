@@ -10,7 +10,8 @@ create_train_op = __import__('5-create_train_op').create_train_op
 forward_prop = __import__('2-forward_prop').forward_prop
 
 
-def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, iterations, save_path="/tmp/model.ckpt"):
+def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha,
+          iterations, save_path="/tmp/model.ckpt"):
     """ builds, trains, and saves a neural network classifier """
     m, nx = X_train.shape
     ny = Y_train.shape[1]
@@ -28,8 +29,10 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, i
         sess.run(init)
 
         for i in range(iterations + 1):
-            t_cost, t_accuracy = sess.run([loss, accuracy], feed_dict={x: X_train, y: Y_train})
-            v_cost, v_accuracy = sess.run([loss, accuracy], feed_dict={x: X_valid, y: Y_valid})
+            t_cost, t_accuracy = sess.run([loss, accuracy],
+                                          feed_dict={x: X_train, y: Y_train})
+            v_cost, v_accuracy = sess.run([loss, accuracy],
+                                          feed_dict={x: X_valid, y: Y_valid})
 
             if i % 100 == 0 or i == iterations:
                 print("After {} iterations:".format(i))
