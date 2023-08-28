@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Task 2 - Forward Propagation"""
+"""Task 7 - Evaluate"""
 
 import tensorflow.compat.v1 as tf
 
 
 def evaluate(X, Y, save_path):
+    """evaluating"""
     with tf.Session() as sess:
         # Load the saved model
         saver = tf.train.import_meta_graph(save_path + ".meta")
