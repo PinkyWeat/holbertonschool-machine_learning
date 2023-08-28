@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
+"""Task 6 - Training """
 import tensorflow.compat.v1 as tf
 
-tf.disable_eager_execution()
 
 calculate_accuracy = __import__('3-calculate_accuracy').calculate_accuracy
 calculate_loss = __import__('4-calculate_loss').calculate_loss
@@ -10,6 +11,7 @@ forward_prop = __import__('2-forward_prop').forward_prop
 
 
 def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations, alpha, iterations, save_path="/tmp/model.ckpt"):
+    """ builds, trains, and saves a neural network classifier """
     m, nx = X_train.shape
     ny = Y_train.shape[1]
     x, y = create_placeholders(nx, ny)
