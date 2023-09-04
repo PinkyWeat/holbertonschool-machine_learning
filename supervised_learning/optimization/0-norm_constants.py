@@ -9,4 +9,3 @@ def normalization_constants(X):
     std = np.std(X, axis=0)
 
     return mean, std
-
