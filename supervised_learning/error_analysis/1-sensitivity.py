@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""
-Task 1. Sensitivity
-"""
+"""  """
 import numpy as np
 
 
 def sensitivity(confusion):
-    """ calculates sensitivity for each class in confusion matrixm"""
+    """ calculates sensitivity for each class in confusion matrix """
 
     id_matrix = np.identity(confusion.shape[1])
     TP = np.sum(confusion * id_matrix, axis=1)
