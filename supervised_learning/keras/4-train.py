@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Tensorflow 2 & Keras"""
+import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
