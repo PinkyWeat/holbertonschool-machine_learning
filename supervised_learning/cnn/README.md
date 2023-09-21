@@ -1,21 +1,17 @@
 # Convolutional Neural Networks
 
 ### Description
+Happy to be part of this cohort, which is aiming every waking minute towards greatness found in Machine Learning development.
 
-Not really a  repo description at the time, but just the fact that I finally fell again in love with what I'm currently studying, the _why_ I'm doing what I do, and the reason I wake up each day looking forward again to learning what I've decided to learn.
+Also, fun to highlight, I deleted the previous `README` as an acciden using git x<
 
 ---
 
-### File Description
 
-_wip_
+_ _wip_ _
 
-___
+---
 
 ### Author
 
 Written by [Denisse Landau](www.linkedin.com/in/denisselandau)
-
----
-
-#### Special thanks to Holberton School for having me as an investment for the future.
