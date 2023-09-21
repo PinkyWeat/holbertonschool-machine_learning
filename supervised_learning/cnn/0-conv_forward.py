@@ -4,6 +4,7 @@ import numpy as np
 
 
 def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
+    """ performs frwd prop over a convolutional layer of a neural network """
     num_samples, prev_height, prev_width, prev_channels = A_prev.shape
     filter_height, filter_width, _, num_filters = W.shape
     stride_height, stride_width = stride
