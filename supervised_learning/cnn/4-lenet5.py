@@ -5,19 +5,21 @@ import tensorflow.compat.v1 as tf
 
 def lenet5(x, y):
     """ builds a modified version of the LeNet-5 architecture using tf """
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(6, (5, 5), padding='same', activation='relu', input_shape=x.shape[1:]),
-        tf.keras.layers.MaxPooling2D((2, 2), strides=2),
-        tf.keras.layers.Conv2D(16, (5, 5), activation='relu'),
-        tf.keras.layers.MaxPooling2D((2, 2), strides=2),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(120, activation='relu'),
-        tf.keras.layers.Dense(84, activation='relu'),
-        tf.keras.layers.Dense(10)
-    ])
+    initializer = tf.contrib.layers.variance_scaling_initializer()
+    conv1 = tf.layers.conv2d(x, 6, 5, padding='same', activation=tf.nn.relu, kernel_initializer=initializer)
+    pool1 = tf.layers.max_pooling2d(conv1, 2, 2)
+    conv2 = tf.layers.conv2d(pool1, 16, 5, activation=tf.nn.relu, kernel_initializer=initializer)
+    pool2 = tf.layers.max_pooling2d(conv2, 2, 2)
+    flatten = tf.layers.flatten(pool2)
+    fc1 = tf.layers.dense(flatten, 120, activation=tf.nn.relu, kernel_initializer=initializer)
+    fc2 = tf.layers.dense(fc1, 84, activation=tf.nn.relu, kernel_initializer=initializer)
+    logits = tf.layers.dense(fc2, 10, kernel_initializer=initializer)
 
-    model.compile(optimizer='adam',
-                  loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
-                  metrics=['accuracy'])
+    loss = tf.losses.softmax_cross_entropy(y, logits)
+    train_op = tf.train.AdamOptimizer().minimize(loss)
+    correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    return model
+    softmax = tf.nn.softmax(logits)
+
+    return softmax, train_op, loss, accuracy
