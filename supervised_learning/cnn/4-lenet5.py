@@ -8,13 +8,19 @@ def lenet5(x, y):
     initializer = tf.variance_scaling_initializer()
 
     conv1 = tf.layers.conv2d(x, 6, 5, padding='same',
-                             activation=tf.nn.relu,
+                             use_bias=False,
                              kernel_initializer=initializer)
-    pool1 = tf.layers.max_pooling2d(conv1, 2, 2)
+    bn1 = tf.layers.batch_normalization(conv1)
+    act1 = tf.nn.relu(bn1)
+    pool1 = tf.layers.max_pooling2d(act1, 2, 2)
+
     conv2 = tf.layers.conv2d(pool1, 16, 5,
-                             activation=tf.nn.relu,
+                             use_bias=False,
                              kernel_initializer=initializer)
-    pool2 = tf.layers.max_pooling2d(conv2, 2, 2)
+    bn2 = tf.layers.batch_normalization(conv2)
+    act2 = tf.nn.relu(bn2)
+    pool2 = tf.layers.max_pooling2d(act2, 2, 2)
+
     flatten = tf.layers.flatten(pool2)
     fc1 = tf.layers.dense(flatten, 120,
                           activation=tf.nn.relu,
