@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """ Convolutional Neural Network """
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 
 def lenet5(x, y):
     """ builds a modified version of the LeNet-5 architecture using tf """
     kernel_init = tf.contrib.layers.variance_scaling_initializer()
 
-    layer_1 = tf.layers.Conv2D( # layer 1
+    layer_1 = tf.layers.Conv2D(  # layer 1
         filters=6,
         kernel_size=(5, 5),
         padding="same",
