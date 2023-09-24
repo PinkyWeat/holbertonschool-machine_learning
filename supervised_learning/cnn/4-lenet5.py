@@ -8,8 +8,7 @@ def lenet5(x, y):
     initializer = tf.keras.initializers.VarianceScaling(scale=2.0)
 
     conv1 = tf.layers.conv2d(x, 6, 5,
-                             padding='same',
-                             use_bias=False,
+                             padding="same",
                              activation=tf.nn.relu,
                              kernel_initializer=initializer)
     bn1 = tf.layers.batch_normalization(conv1)
@@ -18,7 +17,6 @@ def lenet5(x, y):
     pool1 = tf.layers.max_pooling2d(act1, 2, 2)
 
     conv2 = tf.layers.conv2d(pool1, 16, 5,
-                             use_bias=False,
                              padding="valid",
                              activation=tf.nn.relu,
                              kernel_initializer=initializer)
@@ -36,14 +34,14 @@ def lenet5(x, y):
                           kernel_initializer=initializer)
 
     logits = tf.layers.dense(fc2, 10,
+                             activation=tf.math.softmax,
                              kernel_initializer=initializer)
-    output = tf.nn.softmax(logits)
 
-    loss = tf.losses.softmax_cross_entropy(y, output)
+    loss = tf.losses.softmax_cross_entropy(y, logits)
     optimizer = tf.train.AdamOptimizer()
     train_op = optimizer.minimize(loss)
-    pred_labels = tf.argmax(output, axis=1)
+    pred_labels = tf.argmax(logits, axis=1)
     correct_pred = tf.equal(pred_labels, tf.argmax(y, axis=1))
     accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
-    return output, train_op, loss, accuracy
+    return logits, train_op, loss, accuracy
