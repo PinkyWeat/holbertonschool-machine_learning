@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """ Convolutional Neural Network """
 import tensorflow.compat.v1 as tf
+tf.set_random_seed(0)
 
 
 def lenet5(x, y):
     """ builds a modified version of the LeNet-5 architecture using tf """
-    initializer = tf.variance_scaling_initializer()
+    initializer = tf.variance_scaling_initializer(seed=0)
 
     conv1 = tf.layers.conv2d(x, 6, 5, padding='same',
                              use_bias=False,
