@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """ Convolutional Neural Network """
+import os
+os.environ['TF_MLIR_OPT'] = '1'
 import tensorflow.compat.v1 as tf
 
 
