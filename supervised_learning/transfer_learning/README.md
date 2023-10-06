@@ -37,3 +37,9 @@ Epoch 3/3
 1563/1563 [==============================] - 3318s 2s/step - loss: 0.2341 - accuracy: 0.9237 - val_loss: 0.2991 - val_accuracy: 0.9042
 
 79/79 [==============================] - 326s 4s/step - loss: 0.2991 - accuracy: 0.9042
+
+--
+
+## Resources
+
+https://keras.io/api/applications/
