@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Convolutions & Pooling """
+""" Convoluutions & Pooling """
 import numpy as np
 
 
