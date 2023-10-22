@@ -15,14 +15,18 @@ def dense_block(X, nb_filters, growth_rate, layers):
         # 1x1 Convolution
         X = K.layers.BatchNormalization()(X)
         X = K.layers.Activation("relu")(X)
-        X = K.layers.Conv2D(4 * growth_rate, (1, 1), padding="same", kernel_initializer=init)(X)
+        X = K.layers.Conv2D(4 * growth_rate, (1, 1),
+                            padding="same",
+                            kernel_initializer=init)(X)
 
         # 3x3 Convolution
         X = K.layers.BatchNormalization()(X)
         X = K.layers.Activation("relu")(X)
-        X = K.layers.Conv2D(growth_rate, (3, 3), padding="same", kernel_initializer=init)(X)
+        X = K.layers.Conv2D(growth_rate, (3, 3),
+                            padding="same",
+                            kernel_initializer=init)(X)
 
-        # Concatenate the feature maps from the previous layer with the current one
+        # Concatenate feature maps from the previous layer with the current one
         X = K.layers.Concatenate()([X_shortcut, X])
 
         nb_filters += growth_rate
