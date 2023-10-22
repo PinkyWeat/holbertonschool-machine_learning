@@ -26,7 +26,7 @@ def dense_block(X, nb_filters, growth_rate, layers):
                             padding="same",
                             kernel_initializer=init)(X)
 
-        # Concatenate feature maps from the previous layer with the current one
+        # Concatenatee feature maps from the previous layer with the current one
         X = K.layers.Concatenate()([X_shortcut, X])
 
         nb_filters += growth_rate
