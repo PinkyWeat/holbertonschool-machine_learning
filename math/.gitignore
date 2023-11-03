@@ -1,0 +1,12 @@
+*-main.py
+/.idea/.gitignore
+/.idea/math.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
+plotting/*-main.py
+linear_algebra/*-main.py
+calculus/*-main.py
+convolutions_and_pooling/*-main.py
