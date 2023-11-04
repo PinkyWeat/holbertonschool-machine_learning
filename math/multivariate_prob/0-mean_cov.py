@@ -2,6 +2,7 @@
 """ Multivariate Probability """
 import numpy as np
 
+
 def mean_cov(X):
     """ calculates the mean and covariance of a data set """
     if len(X.shape) != 2 or not isinstance(X, np.ndarray):
