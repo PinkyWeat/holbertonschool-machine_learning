@@ -13,4 +13,4 @@ def mean_cov(X):
     mean = np.mean(X, axis=0, keepdims=True)
     X_centered = X - mean
     cov = X_centered.T @ X_centered / (X.shape[0] - 1)
-    return mean, cov
+    return np.reshape(mean, (mean.shape[0], 1)), cov
