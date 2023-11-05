@@ -22,7 +22,7 @@ class MultiNormal():
         if not isinstance(x, np.ndarray) or len(x.shape) != 2:
             raise TypeError("x must be a numpy.ndarray")
         if x.shape != (d, 1):
-            raise ValueError("x must have the shape ({d}, 1)")
+            raise ValueError("x must have the shape ({}, 1)".format(d))
 
         denom_const = (((2 * np.pi) ** (d / 2))
                        * (np.linalg.det(self.cov) ** 0.5))
