@@ -17,7 +17,7 @@ class MultiNormal():
 
     def pdf(self, x):
         """ calculates the PDF at a data point """
-        d = self.mean.shape[0]
+        d = len(self.mean)
 
         if not isinstance(x, np.ndarray) or len(x.shape) != 2:
             raise TypeError("x must be a numpy.ndarray")
