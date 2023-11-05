@@ -17,9 +17,6 @@ class MultiNormal():
 
     def pdf(self, x):
         """ calculates the PDF at a data point """
-        # If x is not a numpy.ndarray, raise a TypeError with the message x must be a numpy.ndarray
-        # If x is not of shape (d, 1), raise a ValueError with the message x must have the shape ({d}, 1)
-        # Returns the value of the PDF
         d = self.mean.shape[0]
 
         if not isinstance(x, np.ndarray) or len(x.shape) != 2:
@@ -27,7 +24,8 @@ class MultiNormal():
         if x.shape != (d, 1):
             raise ValueError("x must have the shape ({d}, 1)")
 
-        denom_const = ((2 * np.pi) ** (d / 2)) * (np.linalg.det(self.cov) ** 0.5)
+        denom_const = (((2 * np.pi) ** (d / 2))
+                       * (np.linalg.det(self.cov) ** 0.5))
 
         diff = x - self.mean
         exponent = -0.5 * np.linalg.solve(self.cov, diff).T.dot(diff)
