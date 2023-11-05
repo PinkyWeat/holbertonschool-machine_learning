@@ -8,7 +8,7 @@ class MultiNormal():
     """ represents a Multivariate Normal distribution """
     def __init__(self, data):
         """ constructor stuff """
-        if not isinstance(data, np.ndarray):
+        if not isinstance(data, np.ndarray) or len(data.shape) != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
         if data.shape[1] < 2:
             raise ValueError("data must contain multiple data points")
