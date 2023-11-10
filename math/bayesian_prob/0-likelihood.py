@@ -24,14 +24,9 @@ def likelihood(x, n, P):
 
     log_likelihoods = np.zeros(P.shape)
 
-    mask = (P > 0) & (P < 1)
+    for i, p in enumerate(P):
+        log_likelihoods[i] = (np.math.factorial(n) / (np.math.factorial(x)
+                                                 * np.math.factorial(n - x))) * (p ** x) * \
+                        ((1 - p) ** (n - x))
 
-    log_likelihoods[mask] = ((np.log(np.arange(1, n + 1)).sum() -
-                             (np.log(np.arange(1, x + 1)).sum() +
-                              np.log(np.arange(1, n - x + 1)).sum())) +
-                             x * np.log(P[mask]) + (n - x)
-                             * np.log(1 - P[mask]))
-
-    likelihoods = np.exp(log_likelihoods)
-
-    return likelihoods
+    return log_likelihoods
