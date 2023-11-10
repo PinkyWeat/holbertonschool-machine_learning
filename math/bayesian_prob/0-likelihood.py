@@ -25,8 +25,9 @@ def likelihood(x, n, P):
     log_likelihoods = np.zeros(P.shape)
 
     for i, p in enumerate(P):
-        log_likelihoods[i] = (np.math.factorial(n) / (np.math.factorial(x)
-                                                 * np.math.factorial(n - x))) * (p ** x) * \
+        likelihood[i] = (np.math.factorial(n)
+                         / (np.math.factorial(x)
+                         * np.math.factorial(n - x))) * (p ** x) * \
                         ((1 - p) ** (n - x))
 
     return log_likelihoods
