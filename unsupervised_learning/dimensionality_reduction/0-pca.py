@@ -15,4 +15,3 @@ def pca(X, var=0.95):
     r = np.where(cumsum >= var)[0][0]
 
     return V[:, :r + 1]
-
