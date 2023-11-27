@@ -3,7 +3,6 @@
 import numpy as np
 
 
-
 def forward(Observation, Emission, Transition, Initial):
     """ performs the forward algorithm for a hidden markov model """
     alpha_t = np.zeros((len(Initial), len(Observation)))
