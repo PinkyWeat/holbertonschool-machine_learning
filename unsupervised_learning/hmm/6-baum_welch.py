@@ -1,8 +1,39 @@
 #!/usr/bin/env python3
 """ Hidden Markov Models """
 import numpy as np
-forward = __import__('3-forward').forward
-backward = __import__('5-backward').backward
+
+
+
+def forward(Observation, Emission, Transition, Initial):
+    """ performs the forward algorithm for a hidden markov model """
+    alpha_t = np.zeros((len(Initial), len(Observation)))
+    alpha_t[:, 0] = Initial[:, 0] * Emission[:, Observation[0]]
+
+    for t in range(1, len(Observation)):
+        for j in range(len(Initial)):
+            alpha_t_j = np.sum(
+                alpha_t[:, t - 1] * Transition[:, j]) * \
+                        Emission[j, Observation[t]]
+            alpha_t[j, t] = alpha_t_j
+
+    P = np.sum(alpha_t[:, -1])
+
+    return P, alpha_t
+
+
+def backward(Observation, Emission, Transition, Initial):
+    """ performs the backward algorithm for a hidden markov model """
+    beta_t = np.zeros((len(Initial), len(Observation)))
+    beta_t[:, -1] = 1
+
+    for t in range(len(Observation) - 2, -1, -1):
+        for j in range(len(Initial)):
+            beta_t[j, t] = np.sum(
+                beta_t[:, t + 1] * Transition[j, :] *
+                Emission[:, Observation[t + 1]])
+
+    P = np.sum(Initial[:, 0] * Emission[:, Observation[0]] * beta_t[:, 0])
+    return P, beta_t
 
 
 def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
