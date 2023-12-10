@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ Autoencoders """
-from tensorflow import keras
+import tensorflow.keras as keras
 
 
 # input_dims is an integer containing the dimensions of the model input
