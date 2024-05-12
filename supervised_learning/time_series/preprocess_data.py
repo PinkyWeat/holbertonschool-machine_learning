@@ -6,7 +6,8 @@ import pandas as pd
 def preprocess_data(csv_path):
     """ preprocesses raw data """
     wip = (pd.read_csv(csv_path)
-           .assign(Timestamp=lambda x: pd.to_datetime(x['Timestamp'], unit='s'))
+           .assign(Timestamp=lambda x:
+                   pd.to_datetime(x['Timestamp'], unit='s'))
            .sort_values(by='Timestamp')
            .loc[lambda x: x['Timestamp'] >= pd.to_datetime("2017-01-01")]
            .set_index('Timestamp')
