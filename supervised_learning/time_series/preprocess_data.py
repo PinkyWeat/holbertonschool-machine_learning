@@ -10,7 +10,8 @@ def preprocess_data(csv_path):
     wip.sort_values(by='Timestamp', inplace=True)
     wip = wip[wip['Timestamp'] >= pd.to_datetime("2017-01-01")]
     wip.set_index('Timestamp', inplace=True)
-    wip = wip.drop(['High', 'Low', 'Volume_(BTC)', 'Volume_(Currency)'], axis=1)
+    wip = wip.drop(['High', 'Low', 'Volume_(BTC)', 'Volume_(Currency)'],
+                   axis=1)
     wip = wip.resample('h').mean()
     wip.dropna(inplace=True)
 
