@@ -14,9 +14,9 @@ def bag_of_words(sentences, vocab=None):
                                       re.sub(r"[^a-zA-Z0-9\s]",
                                              " ", sentence.lower()))
             vocab.extend(cleaned_sentence.split())
-        features = sorted(list(set(vocab)))
+        vocab = sorted(list(set(vocab)))
 
-    embeddings = np.zeros((len(sentences), len(features)))
+    embeddings = np.zeros((len(sentences), len(vocab)))
 
     for i, sentence in enumerate(sentences):
         # Apply the same cleaning process for each word in the sentence
@@ -24,6 +24,6 @@ def bag_of_words(sentences, vocab=None):
                                                 " ", sentence.lower())).split()
         for word in words:
             if word in vocab:
-                embeddings[i][features.index(word)] += 1
+                embeddings[i][vocab.index(word)] += 1
 
-    return embeddings.astype(int), features
+    return embeddings.astype(int), vocab
