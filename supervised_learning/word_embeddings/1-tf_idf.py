@@ -7,6 +7,6 @@ def tf_idf(sentences, vocab=None):
     """ creates a TF-IDF embedding """
     the_vector = TfidfVectorizer(vocabulary=vocab)
     embed = the_vector.fit_transform(sentences)
-    features = the_vector.get_feature_names_out()
+    features = the_vector.get_feature_names()
     return embed.toarray(), features
 
