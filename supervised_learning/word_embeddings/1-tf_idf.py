@@ -9,4 +9,3 @@ def tf_idf(sentences, vocab=None):
     embed = the_vector.fit_transform(sentences)
     features = the_vector.get_feature_names()
     return embed.toarray(), features
-
