@@ -1,13 +1,22 @@
-#!/usr/bin/env python3
-""" Bag of Words """
-from sklearn.feature_extraction.text import CountVectorizer
-
+import numpy as np
 
 def bag_of_words(sentences, vocab=None):
-    """ creates a bag of words embedding matrix """
+    """Creates a bag of words embedding matrix"""
 
-    vectorizeMe = CountVectorizer(vocabulary=vocab)
-    embeddings = vectorizeMe.fit_transform(sentences).toarray()
-    features = vectorizeMe.get_feature_names_out()
+    if vocab is None:
+        features = set(word for sentence in sentences for word in sentence.lower().split())
+        features = sorted(features)
+    else:
+        features = sorted(vocab)
 
-    return embeddings, list(features)
+    features_dict = {word: idx for idx, word in enumerate(features)}
+
+    embeddings = np.zeros((len(sentences), len(features)))
+
+    for i, sentence in enumerate(sentences):
+        words = sentence.lower().split()
+        for word in words:
+            if word in features_dict:
+                embeddings[i, features_dict[word]] += 1
+
+    return embeddings, features
