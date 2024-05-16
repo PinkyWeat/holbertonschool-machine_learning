@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+""" Bag of Words """
 from sklearn.feature_extraction.text import CountVectorizer
 
 
@@ -9,4 +10,4 @@ def bag_of_words(sentences, vocab=None):
     embeddings = vectorizeMe.fit_transform(sentences).toarray()
     features = vectorizeMe.get_feature_names_out()
 
-    return embeddings, features
+    return embeddings, list(features)
