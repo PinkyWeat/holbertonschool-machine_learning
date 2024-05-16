@@ -1,10 +1,14 @@
+#!/usr/bin/env python3
+""" Word Embeddings """
 import numpy as np
+
 
 def bag_of_words(sentences, vocab=None):
     """Creates a bag of words embedding matrix"""
 
     if vocab is None:
-        features = set(word for sentence in sentences for word in sentence.lower().split())
+        features = set(word for sentence in sentences for word
+                       in sentence.lower().split())
         features = sorted(features)
     else:
         features = sorted(vocab)
