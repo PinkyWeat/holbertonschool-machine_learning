@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
 """ Word Embeddings """
 import numpy as np
+import re
 
 
 def bag_of_words(sentences, vocab=None):
     """Creates a bag of words embedding matrix"""
 
     if vocab is None:
-        features = set(word for sentence in sentences for word
-                       in sentence.lower().split())
-        features = sorted(features)
-    else:
-        features = sorted(vocab)
-
-    features_dict = {word: idx for idx, word in enumerate(features)}
+        vocab = []
+        for sentence in sentences:
+            cleaned_sentence = re.sub(r"\b\w{1}\b", "",
+                                      re.sub(r"[^a-zA-Z0-9\s]",
+                                             " ", sentence.lower()))
+            vocab.extend(cleaned_sentence.split())
+        features = sorted(list(set(vocab)))
 
     embeddings = np.zeros((len(sentences), len(features)))
 
     for i, sentence in enumerate(sentences):
-        words = sentence.lower().split()
+        # Apply the same cleaning process for each word in the sentence
+        words = re.sub(r"\b\w{1}\b", "", re.sub(r"[^a-zA-Z0-9\s]",
+                                                " ", sentence.lower())).split()
         for word in words:
-            if word in features_dict:
-                embeddings[i, features_dict[word]] += 1
+            if word in vocab:
+                embeddings[i][features.index(word)] += 1
 
-    return embeddings, features
+    return embeddings.astype(int), features
