@@ -70,10 +70,15 @@ class WGAN_clip(keras.Model):
                 real_outputs = self.discriminator(real_samples, training=True)
                 fake_outputs = self.discriminator(fake_samples, training=True)
 
-                discr_loss = self.discriminator.loss(real_outputs, fake_outputs)
+                discr_loss = self.discriminator.loss(real_outputs,
+                                                     fake_outputs)
 
-            disc_gradients = disc_tape.gradient(discr_loss, self.discriminator.trainable_variables)
-            self.discriminator.optimizer.apply_gradients(zip(disc_gradients, self.discriminator.trainable_variables))
+            disc_gradients = disc_tape.gradient(
+                discr_loss,
+                self.discriminator.trainable_variables)
+            self.discriminator.optimizer.apply_gradients(
+                zip(disc_gradients,
+                    self.discriminator.trainable_variables))
 
             # Clipping weights
             for var in self.discriminator.trainable_variables:
@@ -85,7 +90,9 @@ class WGAN_clip(keras.Model):
             fake_outputs = self.discriminator(fake_samples, training=True)
             gen_loss = self.generator.loss(fake_outputs)
 
-        gen_gradients = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
-        self.generator.optimizer.apply_gradients(zip(gen_gradients, self.generator.trainable_variables))
+        gen_gradients = gen_tape.gradient(
+            gen_loss, self.generator.trainable_variables)
+        self.generator.optimizer.apply_gradients(zip(
+            gen_gradients, self.generator.trainable_variables))
 
         return {"discr_loss": discr_loss, "gen_loss": gen_loss}
