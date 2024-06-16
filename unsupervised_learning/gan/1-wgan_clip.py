@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+""" Wasserstein Clip !! """
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -5,8 +7,11 @@ import matplotlib.pyplot as plt
 
 
 class WGAN_clip(keras.Model):
+    """ This the class """
 
-    def __init__(self, generator, discriminator, latent_generator, real_examples, batch_size=200, disc_iter=2, learning_rate=.005):
+    def __init__(self, generator, discriminator,
+                 latent_generator, real_examples, batch_size=200,
+                 disc_iter=2, learning_rate=.005):
         super().__init__()  # run the __init__ of keras.Model first.
         self.latent_generator = latent_generator
         self.real_examples = real_examples
@@ -20,13 +25,19 @@ class WGAN_clip(keras.Model):
         self.beta_2 = .9  # standard value, but can be changed if necessary
 
         # Define the generator loss and optimizer:
-        self.generator.loss = lambda fake_output: -tf.math.reduce_mean(fake_output)
-        self.generator.optimizer = keras.optimizers.Adam(learning_rate=self.learning_rate, beta_1=self.beta_1, beta_2=self.beta_2)
+        self.generator.loss = lambda fake_output: \
+            -tf.math.reduce_mean(fake_output)
+        self.generator.optimizer = keras.optimizers.Adam(
+            learning_rate=self.learning_rate, beta_1=self.beta_1,
+            beta_2=self.beta_2)
 
         # Define the discriminator loss and optimizer:
-        self.discriminator.loss = lambda real_output, fake_output: tf.math.reduce_mean(fake_output) - tf.math.reduce_mean(real_output)
-        self.discriminator.optimizer = keras.optimizers.Adam(learning_rate=self.learning_rate, beta_1=self.beta_1, beta_2=self.beta_2)
-
+        self.discriminator.loss = lambda real_output, fake_output: (
+                tf.math.reduce_mean(fake_output) -
+                tf.math.reduce_mean(real_output))
+        self.discriminator.optimizer = keras.optimizers.Adam(
+            learning_rate=self.learning_rate, beta_1=self.beta_1,
+            beta_2=self.beta_2)
 
     # generator of real samples of size batch_size
     def get_fake_sample(self, size=None, training=False):
@@ -54,9 +65,11 @@ class WGAN_clip(keras.Model):
 
                 disc_loss = self.discriminator.loss(real_output, fake_output)
 
-            gradients_of_discriminator = disc_tape.gradient(disc_loss, self.discriminator.trainable_variables)
+            gradients_of_discriminator = disc_tape.gradient(
+                disc_loss, self.discriminator.trainable_variables)
             self.discriminator.optimizer.apply_gradients(
-                zip(gradients_of_discriminator, self.discriminator.trainable_variables))
+                zip(gradients_of_discriminator,
+                    self.discriminator.trainable_variables))
 
             # Clip weights
             for var in self.discriminator.trainable_variables:
@@ -67,8 +80,9 @@ class WGAN_clip(keras.Model):
             gen_output = self.discriminator(generated_images, training=True)
             gen_loss = self.generator.loss(gen_output)
 
-        gradients_of_generator = gen_tape.gradient(gen_loss, self.generator.trainable_variables)
-        self.generator.optimizer.apply_gradients(zip(gradients_of_generator, self.generator.trainable_variables))
+        gradients_of_generator = gen_tape.gradient(
+            gen_loss, self.generator.trainable_variables)
+        self.generator.optimizer.apply_gradients(zip(
+            gradients_of_generator, self.generator.trainable_variables))
 
         return {"discr_loss": disc_loss, "gen_loss": gen_loss}
-
