@@ -41,12 +41,15 @@ class WGAN_clip(keras.Model):
 
     # generator of real samples of size batch_size
     def get_fake_sample(self, size=None, training=False):
+        """ fake sample is just the image of the
+                generator applied to a latent sample """
         if not size:
             size = self.batch_size
         return self.generator(self.latent_generator(size), training=training)
 
     # generator of fake samples of size batch_size
     def get_real_sample(self, size=None):
+        """ real sample from random subset of the set real_examples """
         if not size:
             size = self.batch_size
         sorted_indices = tf.range(tf.shape(self.real_examples)[0])
@@ -55,6 +58,7 @@ class WGAN_clip(keras.Model):
 
     # overloading train_step()
     def train_step(self, _):
+        """ trains it """
         for _ in range(self.disc_iter):
             with tf.GradientTape() as disc_tape:
                 real_images = self.get_real_sample()
