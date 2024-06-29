@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Q Learning - Initialize Q Table """
+""" Q Learning - Epsilon Greedy """
 import numpy as np
 
 
