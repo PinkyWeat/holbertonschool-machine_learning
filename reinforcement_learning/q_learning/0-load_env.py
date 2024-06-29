@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """ Q Learning - Load Environment """
 import gym
-from gym.envs.registration import register
 
 
 def load_frozen_lake(desc=None, map_name=None, is_slippery=False):
