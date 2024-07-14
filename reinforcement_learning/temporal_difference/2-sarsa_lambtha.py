@@ -3,7 +3,8 @@
 import numpy as np
 
 
-def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99, epsilon=1, min_epsilon=0.1,
+def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100,
+                  alpha=0.1, gamma=0.99, epsilon=1, min_epsilon=0.1,
                   epsilon_decay=0.05):
     """ Performs SARSA(λ) on a given OpenAI gym environment """
     n_actions = env.action_space.n
@@ -27,7 +28,8 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamm
                 next_state = next_state[0]
             next_action = epsilon_greedy_policy(next_state, epsilon)
 
-            delta = reward + gamma * Q[next_state, next_action] - Q[state, action]
+            delta = (reward + gamma * Q[next_state, next_action]
+                     - Q[state, action])
             E[state, action] += 1  # Increase the eligibility trace
 
             # Update Q values and eligibility traces
