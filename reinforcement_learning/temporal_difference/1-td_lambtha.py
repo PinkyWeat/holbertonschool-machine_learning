@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+""" Reinforcement Learning - TD Lambtha """
 import numpy as np
 
 
