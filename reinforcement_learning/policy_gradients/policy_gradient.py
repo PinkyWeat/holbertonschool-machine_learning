@@ -9,7 +9,30 @@ def policy(matrix, weight):
     exp_z = np.exp(z - np.max(z))
     return exp_z / np.sum(exp_z, axis=1, keepdims=True)
 
-# The function calculates the "policy" for an agent
-# The policy, tells the agent the probability of taking each action
-# given a certain state.
-# Using a weight matrix to help compute this.
+
+def policy_gradient(state, weight):
+    """ computes Monte Carlo poicy based on state & weight matrix """
+    # compute the probs of taking each action given the current state
+    probs = policy(state, weight)  # and weight matrix
+
+    # randomly select an action based on the computed probs
+    # the random choice selects an index=action according to given probs distr.
+    action = np.random.choice(len(probs[0]), p=probs[0])
+
+    # calculates the gradient
+    # the probs of an action is, the likelihood that the action will be chosen
+    dsoftmax = probs.copy()
+    dsoftmax[0, action] -= 1
+    # subtract 1 from the probs of the action that was actually taken
+    # this is key; adjusting the gradient to focus on the diff between what
+    # we got -chosen action- and what we wanted - the probabilities -
+
+    # to see how changes in the weights, affect the selected action
+    # we compute the dot product of the state and the adjusted probs
+    gradient = np.dot(state.T, dsoftmax)
+    # the dot product helps understand the influence of each state feature
+    # in the decision
+    # this gives us a matrix of gradients, which tells how to change the
+    # weights to improve the policy.
+
+    return action, gradient
