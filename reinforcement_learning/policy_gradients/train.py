@@ -4,7 +4,7 @@ import numpy as np
 from policy_gradient import policy, policy_gradient
 
 
-def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
+def train(env, nb_episodes, alpha=0.000045, gamma=0.98, show_result=False):
     """ implements a full training """
     # random init for weights, will be adjusted during training
     weight = np.random.rand(env.observation_space.shape[0], env.action_space.n)
@@ -17,6 +17,9 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
         done = False
 
         while not done:
+            if show_result and episode % 1000 == 0:
+                env.render()
+
             # getting action & gradient
             action, gradient = policy_gradient(state, weight)
 
