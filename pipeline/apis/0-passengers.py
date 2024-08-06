@@ -1,4 +1,4 @@
-#!/bin/bash/python3
+#!/usr/bin/env python3
 """ APIs """
 import requests
 
@@ -21,4 +21,3 @@ def availableShips(passengerCount):
         url = data['next']
 
     return them_ships
-
