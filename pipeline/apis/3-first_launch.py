@@ -22,15 +22,16 @@ def get_first_launch():
     # GET rocket name
     rocket_id = first_launch['rocket']
     rocket_response = (
-        requests.get(f'https://api.spacexdata.com/v4/rockets/{rocket_id}'))
+        requests.get('https://api.spacexdata.com/v4/rockets/{}'.
+                     format(rocket_id)))
     rocket_name = rocket_response.json()['name'] \
         if rocket_response.status_code == 200 else "Unknown Rocket"
 
-    # launchpad name & locality
+    # GET launchpad name & locality
     launchpad_id = first_launch['launchpad']
     launchpad_response = (
-        requests.
-        get(f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}'))
+        requests.get('https://api.spacexdata.com/v4/launchpads/{}'.
+                     format(launchpad_id)))
     if launchpad_response.status_code == 200:
         launchpad_data = launchpad_response.json()
         launchpad_name = launchpad_data['name']
@@ -41,8 +42,11 @@ def get_first_launch():
 
     launch_name = first_launch['name']
     launch_date = first_launch['date_local']
-    print(f"{launch_name} ({launch_date}) {rocket_name} -"
-          f"{launchpad_name} ({launchpad_locality})")
+    print("{} ({}) {} - {} ({})".format(launch_name,
+                                        launch_date,
+                                        rocket_name,
+                                        launchpad_name,
+                                        launchpad_locality))
 
 
 if __name__ == '__main__':
