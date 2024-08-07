@@ -13,7 +13,8 @@ def get_user_location(url):
     elif response.status_code == 403:
         reset_timestamp = int(response.headers.get('X-RateLimit-Reset'))
         reset_time = datetime.fromtimestamp(reset_timestamp)
-        minutes_until_reset = (reset_time - datetime.now()).total_seconds() // 60
+        minutes_until_reset = (reset_time -
+                               datetime.now()).total_seconds() // 60
         print("Reset in {} min".format(int(minutes_until_reset)))
     elif response.status_code == 200:
         location = response.json().get('location', 'Not found')
