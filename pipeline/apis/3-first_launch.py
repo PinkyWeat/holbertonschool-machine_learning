@@ -46,7 +46,8 @@ def get_first_launch():
 
     # Print formatted result
     print("{} ({}) {} - {} ({})".format(
-        launch_name, launch_date, rocket_name, launchpad_name, launchpad_locality))
+        launch_name, launch_date, rocket_name,
+        launchpad_name, launchpad_locality))
 
 
 if __name__ == '__main__':
