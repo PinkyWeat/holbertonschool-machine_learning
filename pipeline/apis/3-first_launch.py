@@ -42,11 +42,7 @@ def get_first_launch():
 
     launch_name = first_launch['name']
     launch_date = first_launch['date_local']
-    print(f"{launch_name} "
-          f"({launch_date}) "
-          f"{rocket_name} - "
-          f"{launchpad_name} "
-          f"({launchpad_locality})")
+    print(f"{launch_name} ({launch_date}) {rocket_name} - {launchpad_name} ({launchpad_locality})")
 
 
 if __name__ == '__main__':
