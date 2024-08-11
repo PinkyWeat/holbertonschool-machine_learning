@@ -37,7 +37,7 @@ def count_launches_per_rocket():
 
     # Display the results
     for rocket_id, rocket_name in sorted_rockets:
-        print(f"{rocket_name}: {rocket_count[rocket_id]}")
+        print("{}: {}".format(rocket_name, rocket_count[rocket_id]))
 
 
 if __name__ == '__main__':
